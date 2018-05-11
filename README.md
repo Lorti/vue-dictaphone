@@ -4,9 +4,19 @@
 
 🎙️ Vue.js dictaphone component to record audio from the user
 
+![](dictaphone.gif)
+
 ---
 
-## Installation 
+## Features
+
+* HTML/CSS is fully customizable via [Scoped Slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots)
+* Spectrum analyser for visualising frequencies (Optional)
+* `@stop` event returns an `$event` object containing
+  * the audio blob (`$event.blob`) for further processing 
+  * and a data URL (`$event.src`) for immediate output to the user
+
+## Installation
 
 ```
 npm install --save vue-dictaphone
@@ -34,6 +44,7 @@ Vue.use(VueDictaphone);
                        :style="{ opacity: isRecording ? 1 : .5 }"/>
   </div>
 </vue-dictaphone>
+
 <template v-if="audioSource">
   <audio :src="audioSource" controls></audio>
 </template>
@@ -56,7 +67,7 @@ new Vue({
 
 ## Author
 
-Manuel Wieser
-<https://manu.ninja/>
-<https://twitter.com/manuelwieser>
-<https://www.paypal.me/manuninja>
+Manuel Wieser<br>
+<https://manu.ninja/><br>
+<https://twitter.com/manuelwieser><br>
+<https://www.paypal.me/manuninja><br>
