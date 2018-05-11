@@ -4,7 +4,8 @@
   "version": "1.0.0-alpha",
   "author": {
     "name": "Manuel Wieser",
-    "url": "https://github.com/Lorti"
+    "email": "office@manuelwieser.com",
+    "url": "https://manu.ninja/"
   },
   "license": "MIT",
   "private": true,
