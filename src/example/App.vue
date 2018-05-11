@@ -1,16 +1,42 @@
 <template>
   <div id="app">
-    <vue-dictaphone/>
+    <h1>🎙️ Vue.js Dictaphone</h1>
+    <dictaphone @stop="handleRecording($event)">
+      <div slot-scope="{ isRecording, startRecording, stopRecording, stream }">
+        <button v-if="!isRecording"
+                @click="startRecording">Start recording</button>
+        <button v-else
+                @click="stopRecording">Stop recording</button>
+        <spectrum-analyser :stream="stream"
+                           :style="{ opacity: isRecording ? 1 : .5 }"/>
+      </div>
+    </dictaphone>
+    <template v-if="audioSource">
+      <audio :src="audioSource" controls></audio>
+    </template>
   </div>
 </template>
 
 <script>
-import VueDictaphone from '@/Dictaphone';
+import Dictaphone from '@/components/Dictaphone';
+import SpectrumAnalyser from '@/components/SpectrumAnalyser';
 
 export default {
   name: 'app',
+  data() {
+    return {
+      audioSource: null,
+    };
+  },
+  methods: {
+    // eslint-disable-next-line no-unused-vars
+    handleRecording({ blob, src }) {
+      this.audioSource = src;
+    },
+  },
   components: {
-    VueDictaphone,
+    Dictaphone,
+    SpectrumAnalyser,
   },
 };
 </script>
@@ -20,26 +46,5 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
 }
 </style>

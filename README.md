@@ -23,19 +23,35 @@ import VueDictaphone from "vue-dictaphone";
 Vue.use(VueDictaphone);
 ```
 
-```js
-import { VueDictaphone } from "vue-dictaphone";
-export default {
-  // ...
-  components: {
-    VueDictaphone
-  }
-  // ...
-};
+```html
+<vue-dictaphone @stop="handleRecording($event)">
+  <div slot-scope="{ isRecording, startRecording, stopRecording, stream }">
+    <button v-if="!isRecording"
+            @click="startRecording">Start recording</button>
+    <button v-else
+            @click="stopRecording">Stop recording</button>
+    <vue-dictaphone-spectrum-analyser :stream="stream"
+                       :style="{ opacity: isRecording ? 1 : .5 }"/>
+  </div>
+</vue-dictaphone>
+<template v-if="audioSource">
+  <audio :src="audioSource" controls></audio>
+</template>
 ```
 
-```html
-<vue-dictaphone/>
+```js
+new Vue({
+  // ... 
+  data: {
+    audioSource: null
+  },
+  methods: {
+    handleRecording({ blob, src }) {
+      this.audioSource = src;
+    }
+  }
+  // ... 
+});
 ```
 
 ## Author
