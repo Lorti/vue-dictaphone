@@ -1,11 +1,15 @@
 {
   "name": "vue-dictaphone",
   "description": "Vue.js dictaphone component to record audio from the user",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-alpha.1",
   "author": {
     "name": "Manuel Wieser",
     "email": "office@manuelwieser.com",
     "url": "https://manu.ninja/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lorti/vue-dictaphone.git"
   },
   "license": "MIT",
   "scripts": {
