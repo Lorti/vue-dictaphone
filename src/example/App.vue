@@ -1,18 +1,23 @@
 <template>
   <div id="app">
     <h1>🎙️ Vue.js Dictaphone</h1>
-    <dictaphone @stop="handleRecording($event)">
-      <div slot-scope="{ isRecording, startRecording, stopRecording, stream }">
-        <button v-if="!isRecording"
-                @click="startRecording">Start recording</button>
-        <button v-else
-                @click="stopRecording">Stop recording</button>
-        <spectrum-analyser :stream="stream"
-                           :style="{ opacity: isRecording ? 1 : .5 }"/>
-      </div>
-    </dictaphone>
-    <template v-if="audioSource">
-      <audio :src="audioSource" controls></audio>
+
+    <template v-if="showError">
+      Your browser doesn’t support audio recording or you’ve blocked microphone access.
+    </template>
+
+    <template v-else>
+      <dictaphone @stop="handleRecording($event)" @error="handleError">
+        <div slot-scope="{ isRecording, startRecording, stopRecording, deleteRecording }">
+          <button v-if="!isRecording" @click="startRecording">Start recording</button>
+          <button v-else @click="stopRecording">Stop recording</button>
+          <spectrum-analyser :style="{ opacity: isRecording ? 1 : .5 }"/>
+        </div>
+      </dictaphone>
+
+      <template v-if="audioSource">
+        <audio :src="audioSource" controls></audio>
+      </template>
     </template>
   </div>
 </template>
@@ -26,9 +31,13 @@ export default {
   data() {
     return {
       audioSource: null,
+      showError: false,
     };
   },
   methods: {
+    handleError() {
+      this.showError = true;
+    },
     // eslint-disable-next-line no-unused-vars
     handleRecording({ blob, src }) {
       this.audioSource = src;

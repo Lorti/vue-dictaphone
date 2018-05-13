@@ -3,7 +3,6 @@ export default {
   data() {
     return {
       audio: null,
-      stream: null,
       isRecording: false,
     };
   },
@@ -26,7 +25,6 @@ export default {
       startRecording: this.startRecording,
       stopRecording: this.stopRecording,
       deleteRecording: this.deleteRecording,
-      stream: this.stream,
     });
   },
   watch: {
@@ -37,8 +35,16 @@ export default {
       });
     },
   },
+  // eslint-disable-next-line consistent-return
   async mounted() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    let stream;
+
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (error) {
+      this.$emit('error', '`navigator.mediaDevices.getUserMedia()` failed.');
+      return Promise.resolve();
+    }
 
     const recorder = new MediaRecorder(stream);
     let chunks = [];
@@ -53,6 +59,5 @@ export default {
     });
 
     this.mediaRecorder = recorder;
-    this.stream = stream;
   },
 };

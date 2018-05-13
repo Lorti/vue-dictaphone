@@ -1,16 +1,12 @@
 <template>
-  <canvas :width="width" :height="height" v-visualize="spectrum"></canvas>
+  <canvas :width="width" :height="height"
+          v-if="points" v-render="points"></canvas>
 </template>
 
 <script>
 export default {
   name: 'spectrum-analyser',
   props: {
-    stream: {
-      validator(value) {
-        return value instanceof MediaStream;
-      },
-    },
     width: {
       type: Number,
       default: 512,
@@ -25,8 +21,30 @@ export default {
       spectrum: null,
     };
   },
+  computed: {
+    points() {
+      if (!this.spectrum) {
+        return null;
+      }
+
+      const points = [];
+
+      const dataLength = this.spectrum.length || Object.keys(this.spectrum).length;
+      const sliceWidth = (this.width * 1.0) / dataLength;
+
+      let x = 0;
+      for (let i = 0; i < dataLength; i += 1) {
+        const v = this.spectrum[i] / 128.0;
+        const y = v * (this.height / 2);
+        points.push([x, y]);
+        x += sliceWidth;
+      }
+
+      return points;
+    },
+  },
   directives: {
-    visualize: {
+    render: {
       update(canvasElement, binding) {
         const context = canvasElement.getContext('2d');
 
@@ -36,21 +54,12 @@ export default {
         context.clearRect(0, 0, width, height);
         context.beginPath();
 
-        const dataLength = binding.value.length;
-        const sliceWidth = (width * 1.0) / dataLength;
-        let x = 0;
-
-        for (let i = 0; i < dataLength; i += 1) {
-          const v = binding.value[i] / 128.0;
-          const y = v * (height / 2);
-
+        for (let i = 0; i < binding.value.length; i += 1) {
           if (i === 0) {
-            context.moveTo(x, y);
+            context.moveTo(...binding.value[i]);
           } else {
-            context.lineTo(x, y);
+            context.lineTo(...binding.value[i]);
           }
-
-          x += sliceWidth;
         }
 
         context.lineTo(width, height / 2);
@@ -58,8 +67,16 @@ export default {
       },
     },
   },
+  // eslint-disable-next-line consistent-return
   async mounted() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    let stream;
+
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (error) {
+      this.$emit('error', '`navigator.mediaDevices.getUserMedia()` failed.');
+      return Promise.resolve();
+    }
 
     const context = new AudioContext();
 
