@@ -36,12 +36,13 @@ Vue.use(VueDictaphone);
 
 ```html
 <vue-dictaphone @stop="handleRecording($event)">
-  <div slot-scope="{ isRecording, startRecording, stopRecording, deleteRecording }">
+  <template slot-scope="{ isRecording, startRecording, stopRecording, deleteRecording }">
     <button v-if="!isRecording" @click="startRecording">Start recording</button>
     <button v-else @click="stopRecording">Stop recording</button>
-    <vue-dictaphone-spectrum-analyser :style="{ opacity: isRecording ? 1 : .5 }"/>
-  </div>
+  </template>
 </vue-dictaphone>
+
+<vue-dictaphone-spectrum-analyser/>
 
 <template v-if="audioSource">
   <audio :src="audioSource" controls></audio>

@@ -1,8 +1,20 @@
+<template>
+  <div v-if="mediaRecorder">
+    <slot :isRecording="isRecording"
+          :startRecording="startRecording"
+          :stopRecording="stopRecording"
+          :deleteRecording="deleteRecording">
+    </slot>
+  </div>
+</template>
+
+<script>
 export default {
   name: 'dictaphone',
   data() {
     return {
-      audio: null,
+      audioBlob: null,
+      mediaRecorder: null,
       isRecording: false,
     };
   },
@@ -16,22 +28,14 @@ export default {
       this.mediaRecorder.stop();
     },
     deleteRecording() {
-      this.audio = null;
+      this.audioBlob = null;
     },
   },
-  render() {
-    return this.$scopedSlots.default({
-      isRecording: this.isRecording,
-      startRecording: this.startRecording,
-      stopRecording: this.stopRecording,
-      deleteRecording: this.deleteRecording,
-    });
-  },
   watch: {
-    audio() {
+    audioBlob() {
       this.$emit('stop', {
-        blob: this.audio,
-        src: URL.createObjectURL(this.audio),
+        blob: this.audioBlob,
+        src: URL.createObjectURL(this.audioBlob),
       });
     },
   },
@@ -50,7 +54,7 @@ export default {
     let chunks = [];
 
     recorder.addEventListener('stop', () => {
-      this.audio = new Blob(chunks, { type: 'audio/webm' });
+      this.audioBlob = new Blob(chunks, { type: 'audio/webm' });
       chunks = [];
     });
 
@@ -61,3 +65,4 @@ export default {
     this.mediaRecorder = recorder;
   },
 };
+</script>

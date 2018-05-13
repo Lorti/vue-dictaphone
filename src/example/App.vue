@@ -8,11 +8,11 @@
 
     <template v-else>
       <dictaphone @stop="handleRecording($event)" @error="handleError">
-        <div slot-scope="{ isRecording, startRecording, stopRecording, deleteRecording }">
+        <template slot-scope="{ isRecording, startRecording, stopRecording, deleteRecording }">
           <button v-if="!isRecording" @click="startRecording">Start recording</button>
           <button v-else @click="stopRecording">Stop recording</button>
           <spectrum-analyser :style="{ opacity: isRecording ? 1 : .5 }"/>
-        </div>
+        </template>
       </dictaphone>
 
       <template v-if="audioSource">
