@@ -3,6 +3,7 @@ node_modules/
 dist/
 npm-debug.log
 yarn-error.log
+/test/unit/coverage/
 
 .idea
 *.suo

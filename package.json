@@ -1,7 +1,7 @@
 {
   "name": "vue-dictaphone",
   "description": "Vue.js dictaphone component to record audio from the user",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "author": {
     "name": "Manuel Wieser",
     "email": "office@manuelwieser.com",
@@ -14,6 +14,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.conf.js",
+    "test": "jest --config test/unit/jest.conf.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.conf.js"
   },
   "dependencies": {
@@ -25,8 +26,10 @@
     "not ie <= 8"
   ],
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.16",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-env": "^1.6.0",
@@ -41,8 +44,11 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-vue": "^4.0.0",
     "file-loader": "^1.1.4",
+    "jest": "^22.4.3",
+    "jest-serializer-vue": "^1.0.0",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
+    "vue-jest": "^2.5.0",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.6.0",
