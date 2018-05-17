@@ -34,8 +34,8 @@ export default {
 
       let x = 0;
       for (let i = 0; i < dataLength; i += 1) {
-        const v = this.spectrum[i] / 128.0;
-        const y = v * (this.height / 2);
+        const v = this.spectrum[i] / 255.0;
+        const y = v * this.height;
         points.push([x, y]);
         x += sliceWidth;
       }
@@ -51,19 +51,22 @@ export default {
         const width = canvasElement.width;
         const height = canvasElement.height;
 
+        const points = binding.value;
+
         context.clearRect(0, 0, width, height);
         context.beginPath();
 
-        for (let i = 0; i < binding.value.length; i += 1) {
-          if (i === 0) {
-            context.moveTo(...binding.value[i]);
-          } else {
-            context.lineTo(...binding.value[i]);
-          }
+        context.moveTo(points[0][0], (height / 2) + (points[0][1] / 2));
+
+        for (let i = 1; i < points.length; i += 1) {
+          context.lineTo(points[i][0], (height / 2) + (points[i][1] / 2));
         }
 
-        context.lineTo(width, height / 2);
-        context.stroke();
+        for (let i = points.length - 1; i >= 0; i -= 1) {
+          context.lineTo(points[i][0], (height / 2) - (points[i][1] / 2));
+        }
+
+        context.fill();
       },
     },
   },
@@ -87,7 +90,7 @@ export default {
     source.connect(analyser);
 
     const updateData = () => {
-      analyser.getByteTimeDomainData(dataArray);
+      analyser.getByteFrequencyData(dataArray);
       this.spectrum = dataArray.slice();
 
       requestAnimationFrame(updateData);
