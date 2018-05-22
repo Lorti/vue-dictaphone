@@ -22,7 +22,7 @@ describe('SpectrumAnalyser', () => {
   it('calculates points based on the frequency spectrum', () => {
     const wrapper = mount(Component);
     wrapper.setData({ spectrum: new Uint8Array([127, 0, 255, 127]) });
-    const expected = [[0, 63.5], [128, 0], [256, 127.5], [384, 63.5]];
+    const expected = [[0, 63.74901960784314], [128, 0], [256, 128], [384, 63.74901960784314]];
     expect(wrapper.vm.points).toEqual(expect.arrayContaining(expected));
   });
 });
