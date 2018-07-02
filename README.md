@@ -64,6 +64,18 @@ new Vue({
 });
 ```
 
+### File types
+
+You can pass an optional `mime-type` prop on the `vue-dictaphone` element to change the MIME type of the recorded audio. 
+
+```html
+<vue-dictaphone @stop="handleRecording($event)" mime-type="audio/mp3">
+  <!-- ... -->
+</vue-dictaphone>
+```
+
+For a list of MIME types supported by major browsers take a look a [Media formats for HTML audio and video](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats#File_formats) on MDN.
+
 ## Author
 
 Manuel Wieser<br>

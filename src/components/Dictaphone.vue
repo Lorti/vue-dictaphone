@@ -18,6 +18,12 @@ export default {
       isRecording: false,
     };
   },
+  props: {
+    mimeType: {
+      type: String,
+      default: 'audio/webm',
+    },
+  },
   methods: {
     startRecording() {
       this.isRecording = true;
@@ -54,7 +60,7 @@ export default {
     let chunks = [];
 
     recorder.addEventListener('stop', () => {
-      this.audioBlob = new Blob(chunks, { type: 'audio/webm' });
+      this.audioBlob = new Blob(chunks, { type: this.mimeType });
       chunks = [];
     });
 
