@@ -70,5 +70,10 @@ export default {
 
     this.mediaRecorder = recorder;
   },
+  beforeDestroy() {
+    if (this.mediaRecorder && this.mediaRecorder.stream) {
+      this.mediaRecorder.stream.getTracks().forEach(track => track.stop())
+    }
+  },
 };
 </script>
