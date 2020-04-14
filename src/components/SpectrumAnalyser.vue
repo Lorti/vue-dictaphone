@@ -15,6 +15,10 @@ export default {
       type: Number,
       default: 128,
     },
+    fillStyle: {
+      type: String,
+      default: '#000',
+    },
   },
   data() {
     return {
@@ -45,13 +49,15 @@ export default {
   },
   directives: {
     render: {
-      update(canvasElement, binding) {
+      update(canvasElement, binding, vnode) {
         const context = canvasElement.getContext('2d');
 
         const width = canvasElement.width;
         const height = canvasElement.height;
 
         const points = binding.value;
+
+        context.fillStyle = vnode.context.fillStyle;
 
         context.clearRect(0, 0, width, height);
         context.beginPath();
