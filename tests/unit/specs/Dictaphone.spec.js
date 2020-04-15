@@ -13,7 +13,7 @@ describe.only('Dictaphone', () => {
     expect(wrapper.html()).toBeFalsy();
   });
 
-  it('starts and stops recording', () => {
+  it('starts and stops recording', async () => {
     const mediaRecorder = {
       start: jest.fn(),
       stop: jest.fn(),
@@ -28,13 +28,14 @@ describe.only('Dictaphone', () => {
     expect(mediaRecorder.stop.mock.calls.length).toBe(1);
   });
 
-  it('returns both `blob` and `src` when done recording', () => {
+  it('returns both `blob` and `src` when done recording', async () => {
     window.URL = {
       createObjectURL: jest.fn(),
     };
     window.URL.createObjectURL.mockReturnValue('data...');
     const wrapper = mount(Dictaphone);
     wrapper.setData({ audioBlob: new Blob(new Uint8Array(null), { type: 'audio/webm' }) });
+    await wrapper.vm.$nextTick();
     const firstPayload = wrapper.emitted().stop[0][0];
     expect(firstPayload).toHaveProperty('blob');
     expect(firstPayload).toHaveProperty('src', 'data...');

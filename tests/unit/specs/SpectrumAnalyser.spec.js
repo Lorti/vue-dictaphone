@@ -13,10 +13,10 @@ describe('SpectrumAnalyser', () => {
     expect(wrapper.html()).toBeFalsy();
   });
 
-  it('renders when there’s a valid spectrum', () => {
+  it('renders when there’s a valid spectrum', async () => {
     const wrapper = mount(SpectrumAnalyser);
     wrapper.setData({ spectrum: new Uint8Array(null) });
-    expect(wrapper.emitted().error).toBeFalsy();
+    await wrapper.vm.$nextTick();
     expect(wrapper.is('canvas')).toBe(true)
   });
 
@@ -24,7 +24,6 @@ describe('SpectrumAnalyser', () => {
     const wrapper = mount(SpectrumAnalyser);
     wrapper.setData({ spectrum: new Uint8Array([127, 0, 255, 127]) });
     const expected = [[0, 63.74901960784314], [128, 0], [256, 128], [384, 63.74901960784314]];
-    expect(wrapper.emitted().error).toBeFalsy();
     expect(wrapper.vm.points).toEqual(expect.arrayContaining(expected));
   });
 });
