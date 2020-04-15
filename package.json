@@ -17,7 +17,8 @@
     "serve": "vue-cli-service serve src/example/main.js",
     "build": "vue-cli-service build --target lib src/index.js",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "vue": "^2.6.11"
