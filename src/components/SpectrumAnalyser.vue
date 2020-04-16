@@ -107,8 +107,3 @@ export default {
 };
 </script>
 
-<style scoped>
-  canvas {
-    display: block;
-  }
-</style>

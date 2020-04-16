@@ -8,10 +8,10 @@
 
     <template v-else>
       <dictaphone @stop="handleRecording($event)" @error="handleError" mime-type="audio/mp3">
-        <template slot-scope="{ isRecording, startRecording, stopRecording, deleteRecording }">
+        <template slot-scope="{ isRecording, startRecording, stopRecording }">
           <button v-if="!isRecording" @click="startRecording">Start recording</button>
           <button v-else @click="stopRecording">Stop recording</button>
-          <spectrum-analyser :style="{ opacity: isRecording ? 1 : .5 }"/>
+          <spectrum-analyser :style="{ opacity: isRecording ? 1 : .5, display:'block' }"/>
         </template>
       </dictaphone>
 
@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
