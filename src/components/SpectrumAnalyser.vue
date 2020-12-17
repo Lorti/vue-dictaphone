@@ -87,6 +87,9 @@ export default {
       return Promise.resolve();
     }
 
+    const AudioContext = window.AudioContext // Default
+              || window.webkitAudioContext;  // Safari and old versions of Chrome
+
     const context = new AudioContext();
 
     const analyser = context.createAnalyser();
